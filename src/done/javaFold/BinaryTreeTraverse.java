@@ -44,8 +44,6 @@ class BinaryTreeTraverse{
 
     }
 
-
-
     //中序递归方式 打印二叉树
     public static void inOrderUseRecursion (Node head){
         if(head == null){
@@ -78,7 +76,6 @@ class BinaryTreeTraverse{
             }
         }
     }
-
 
     //后序 【递归】方式 打印二叉树
     public static void postOrderUseRecursion (Node head){
