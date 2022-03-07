@@ -57,23 +57,50 @@ class BTTIteration{
         if(head == null){
             return;
         }
-        Stack<Node> myStack = new Stack<>();
+        Stack<Node> myStack01 = new Stack<>();
+        Stack<Node> myStack02 = new Stack<>();
         Node cur = head;
-        myStack.push(cur);
-        while(cur !=null){
-            /*
-            2个栈实现
-            if(cur.right != null){
-                myStack.push(cur.right);
-                cur = cur.right;
-                continue;
-            };
-
-            if(cur.left != null){
-                myStack.push(cur.left);
-                cur = cur.left;
+        myStack01.push(cur);
+        while(!myStack01.isEmpty()){
+            Node popNode = myStack01.pop();
+            if(popNode.left!=null){
+                myStack01.push(popNode.left);
             }
-            */
+            if(popNode.right!=null){
+                myStack01.push(popNode.right);
+            }
+            myStack02.push(popNode);
+        }
+
+        while(!myStack02.isEmpty()){
+            System.out.print(myStack02.pop().value + " ");
+        }
+    }
+
+    // 宽度优先遍历
+    public static void levelTraverse(Node head){
+        if(head == null){
+            return;
+        }
+        Stack<Node> preStack = new Stack<>();
+        Stack<Node> nextStack = new Stack<>();
+        preStack.push(head);
+        //计数pop
+        while(!preStack.isEmpty() || !nextStack.isEmpty()){
+            if(!preStack.isEmpty()){
+                Node popNode = preStack.pop();
+                System.out.print(popNode.value + " ");
+                if(popNode.right != null){
+                    nextStack.push(popNode.right);
+                }
+                if(popNode.left != null){
+                    nextStack.push(popNode.left);
+                }
+            }else{
+                // 切换主题，继续pop()
+                preStack = nextStack;
+                nextStack = new Stack<>();
+            }
         }
 
     }
@@ -89,7 +116,8 @@ class BTTIteration{
         head.left.right = new Node(5);
         head.right.left = new Node(6);
         head.right.right = new Node(7);
-        inOrderWithIteration(head);
+        levelTraverse(head);
     }
 
+    
 }
