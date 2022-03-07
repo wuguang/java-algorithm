@@ -102,7 +102,6 @@ class BTTIteration{
                 nextStack = new Stack<>();
             }
         }
-
     }
 
     public static void main(String[] args){
@@ -119,5 +118,4 @@ class BTTIteration{
         levelTraverse(head);
     }
 
-    
 }
