@@ -1,10 +1,10 @@
 package done.javaFold;
-import java.util.Stack;
+import java.util.*;
 /**
  * 
  * 二叉树的遍历
  * 
- **/
+**/
 class BTTIteration{
 
     public static void preOrderWithIteration(Node head){
@@ -78,28 +78,55 @@ class BTTIteration{
     }
 
     // 宽度优先遍历
+    // good
     public static void levelTraverse(Node head){
         if(head == null){
             return;
         }
-        Stack<Node> preStack = new Stack<>();
-        Stack<Node> nextStack = new Stack<>();
-        preStack.push(head);
-        //计数pop
-        while(!preStack.isEmpty() || !nextStack.isEmpty()){
-            if(!preStack.isEmpty()){
-                Node popNode = preStack.pop();
-                System.out.print(popNode.value + " ");
-                if(popNode.right != null){
-                    nextStack.push(popNode.right);
-                }
-                if(popNode.left != null){
-                    nextStack.push(popNode.left);
-                }
-            }else{
-                // 切换主题，继续pop()
-                preStack = nextStack;
-                nextStack = new Stack<>();
+        Queue<Node> myQueue01 = new LinkedList<>();
+        Queue<Node> myQueue02 = new LinkedList<>();
+        Node cur = head;
+        myQueue01.offer(cur);
+        while(!myQueue01.isEmpty() || !myQueue02.isEmpty()){
+            if(myQueue01.isEmpty()){
+                myQueue01 = myQueue02;
+                myQueue02 = new LinkedList<>();
+            }
+            Node popNode = myQueue01.poll();
+            System.out.print(popNode.value + " ");
+            if(popNode.left!=null){
+                myQueue02.offer(popNode.left);
+            }
+            if(popNode.right!=null){
+                myQueue02.offer(popNode.right);
+            }
+        }
+    }
+
+    // 只用一个栈，用计数的方式计算
+    // 完美!!!,顺序也对
+    public static void levelTraverseWithNum(Node head){
+        if(head == null){
+            return;
+        }
+        Queue <Node> myQueue = new LinkedList<>();
+        myQueue.offer(head);
+        int preLevelNum = 1;
+        int nextLevelNum = 0;
+        while(!myQueue.isEmpty()){
+            if(preLevelNum == 0){
+                preLevelNum = nextLevelNum;
+            }
+            Node popNode = myQueue.poll();
+            System.out.print(popNode.value + " "); 
+            preLevelNum --;
+            if(popNode.left !=null){
+                myQueue.offer(popNode.left);
+                nextLevelNum ++;
+            }
+            if(popNode.right !=null){
+                myQueue.offer(popNode.right);
+                nextLevelNum ++;
             }
         }
     }
@@ -116,6 +143,9 @@ class BTTIteration{
         head.right.left = new Node(6);
         head.right.right = new Node(7);
         levelTraverse(head);
+        System.out.println(" ");
+        System.out.println("---------------------");
+        levelTraverseWithNum(head);
     }
 
 }
