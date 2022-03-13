@@ -22,9 +22,10 @@ public class Bfprt {
         // 对数组 arr [left,right-1]区域进行扫描
         int i = start;
         //在区域之外的领地
+        int pivot = arr[start];
         int left = start-1;
         int right = end + 1;
-        int pivot = arr[left];
+        
         while(i<right){
             if(arr[i]<pivot){
                 //left领地扩大,i 继续
@@ -63,7 +64,7 @@ public class Bfprt {
     }
 
     public static int doBfprtClassic(int[]arr,int start,int end, int k){
-        int pivot = getPivot(arr);
+        int pivot = getPivot(arr,start,end);
         // 对数组 arr [left,right-1]区域进行扫描
         int i = start;
         //在区域之外的领地
@@ -97,16 +98,16 @@ public class Bfprt {
         }
     }
 
-
-    public static int getPivot(int[] arr){
+    public static int getPivot(int[] arr,int start,int end){
         int step = 5;
         //Arrays.sort(array);
-        int arrLen = arr.length;
-        int[] medianArr = new int[arrLen/5 + (arrLen%step!=0?0:1)];
+        int arrLen = end - start + 1;
+        int[] medianArr = new int[arrLen/5 + (arrLen%step==0?0:1)];
         int i = 0;
         int j = 0;
         for(;i<arrLen;i+=step){
             if(i+5<=arrLen){
+                //Arrays.copyOfRange不包括边界
                 int[] groupArr = Arrays.copyOfRange(arr, i, i+step);
                 Arrays.sort(groupArr);
                 //取数组的中位数，默认是5
@@ -127,7 +128,9 @@ public class Bfprt {
 
     public static void main(String[] args){
         int[] arr = {4,13,2,18,1,23,7,29,5,3,2,2};
-        int k = 6;
+        int k = 3;
         bfprtQuickSortClassic(arr,k-1);
+        U.println("  ");
+        bfprtQuickSort(arr,k-1);
     }
 }
