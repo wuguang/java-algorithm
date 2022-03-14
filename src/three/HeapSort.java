@@ -60,6 +60,7 @@ public class HeapSort {
         for(int i=len-1;i>0;i--){
             doHeapifyForSamll(arr,i,len-1);
         }
+        U.printArr(arr);
 
         U.swap(arr, len-1, 0);
         //第一次堆化完毕
@@ -67,6 +68,7 @@ public class HeapSort {
             // 第一个和end交换，最小的放最后
             //堆化从头开始
             doHeapifyForSamll(arr,0,end);
+            
             U.swap(arr, end, 0);
         }
     }
