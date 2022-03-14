@@ -12,6 +12,8 @@ https://leetcode-cn.com/problemset/all/?topicSlugs=binary-tree&page=3
 6. 求2个字符串中，最长公共字串？
 6. 扩展 KMP 算法
 7.  堆排序\桶排序\计数排序\基排序
+
+8. PriorityQueue\Queue\Stack\LinkedLis\List\ArrayList的使用
 6.  母牛3年一生问题
 7.  动态规划，股票问题
 

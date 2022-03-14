@@ -15,4 +15,15 @@ public class U {
         arr[j] = temp;
         return arr;
     }
+
+    public static void  printArr(int[] arr){
+        System.out.println(" ");
+        System.out.println("-------打印数组开始--------");
+        for(int v:arr){
+            print( v + " ");
+        }
+        System.out.println(" ");
+        System.out.println("-------打印数组结束--------");
+        System.out.println(" ");
+    }
 }
