@@ -61,10 +61,178 @@ public class SortTest{
         }
     }
 
+    public static void shellSort03(int[] arr){
+        if(arr==null || arr.length==1){
+            return;
+        }
+        //用间隔来是数组，来使数组初步有序
+        int len = arr.length;
+        //Java向下取整，其他语言注意调整终止条件
+        for(int gap = len/2; gap>0; gap = gap/2){
+            for(int i=gap;i<len;i+=gap){
+                //检测插入排序
+                //while有中断条件，for需要自己break;
+                int j = i-gap;
+                int tIndex = i;
+                //arr[tIndex] 找到合适自己的地方
+                while(j>=0 && arr[tIndex]<arr[j] ){
+                    //交换位置
+                    U.swap(arr, tIndex, j);
+                    tIndex = j;
+                    j -= gap;
+                }
+            }
+        }
+    }
+
     
+    public static void mergeSort(int[] arr){
+        if(arr==null || arr.length==1){
+            return;
+        }
+        doMergSort(arr,0,arr.length-1);
+    }
+
+    public static void doMergSort(int[] arr, int left, int right){
+        if(left == right){
+            return;
+        }
+        int mid = (right+left)/2;
+        doMergSort(arr,left,mid);
+        doMergSort(arr,mid+1,right);
+        merge(arr,left,mid,right);
+    }
+
+    public static void merge(int[] arr,int left,int mid,int right){
+        int[] tempArr = new int [right-left+1];
+        int leftIndex = left;
+        int rightIndex = mid+1;
+        int i = 0;
+        while(leftIndex<=mid && rightIndex<=right){
+            // 等于是必要的!!此处 保持稳定性的必要条件
+            if(arr[leftIndex]<= arr[rightIndex]){
+                tempArr[i++] = arr[leftIndex++];
+            }else{
+                tempArr[i++] = arr[rightIndex++];
+            }
+        }
+
+        while(leftIndex<=mid){
+            tempArr[i++] = arr[leftIndex++];
+        }
+
+        while(rightIndex<=right){
+            tempArr[i++] = arr[rightIndex++];
+        }
+        i = 0;
+        while(i<= tempArr.length-1){
+            arr[left++] = tempArr[i++];
+        }
+    }
+
+
+    public static void quickSort(int[]arr){
+        if(arr==null || arr.length==1){
+            return;
+        }
+        doQuickSort(arr,0,arr.length-1);
+    }
+
+    public static void doQuickSort(int[]arr,int left,int right){
+        if(right==left){
+            return;
+        }
+        int leftIndex = left -1;
+        int rightIndex= right+1;
+        int i = left;
+        int pivot = arr[left];
+        // i进入 right占领区立即停止
+        while(i<rightIndex){
+            if(arr[i]<pivot){
+                leftIndex++;
+                U.swap(arr, i, leftIndex);
+                i++;
+            }else if(arr[i] == pivot){
+                i++;
+            }else{
+                rightIndex--;
+                U.swap(arr,i,rightIndex);
+            }
+        }
+
+        if(leftIndex>left){
+            doQuickSort(arr,left, leftIndex);
+        }
+        
+        if(right>rightIndex){
+            doQuickSort(arr, rightIndex, right);
+        }
+        
+    }
+
+    public static void quickSortClassic(int[] arr){
+        if(arr == null || arr.length==1){
+            return;
+        }
+        doQuickSortClassic(arr, 0, arr.length-1);
+    }
+
+    public static void doQuickSortClassic(int[]arr,int left,int right){
+        if(left == right){
+            return;
+        }
+        int pivot = arr[left];
+        int leftIndex = left + 1;
+        int rightIndex = right;
+        while(leftIndex<=rightIndex){
+            // 至少有一个携带等于号,防止2个都是pivot重复无限交换
+            while(arr[rightIndex]>=pivot){
+                rightIndex--;
+            }
+            while(arr[leftIndex]<=pivot){
+                leftIndex++;
+            }
+            U.swap(arr, leftIndex, rightIndex);
+        }
+    }
+
+    // 计数排序
+    // 正整数 一定范围类的数 大于0
+    public static void countSort(int[] arr){
+        if(arr==null || arr.length==1){
+            return;
+        }
+        int max = arr[0];
+        int min = arr[0];
+        for(int i=0;i<arr.length-1;i++){
+            if(arr[i]<min){
+                min = arr[i];
+            }
+            if(arr[i]>max){
+                max = arr[i];
+            }
+        }
+        int k = max-min+1;
+        int[] newArr = new int[k+1];
+
+        for(int i=0;i<arr.length-1;i++){
+            newArr[arr[i]] += 1;
+        }
+        U.printArr(newArr);
+    
+        int j = 0;
+        for(int i=0;i<newArr.length-1;i++){
+            while(newArr[i]>0){
+                arr[j] = i;
+                j++;
+                newArr[i] -= 1;
+            }
+        }
+    }
+
     public static void main(String[] args){
         int [] arr = {2,12,3,15,5,25,6,61,7,16,11,22,33,67,89,23,1,1,2,3,3,4};
-        shellSort02(arr);
+        countSort(arr);
         U.printArr(arr);
     }
 }
