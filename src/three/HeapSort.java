@@ -57,18 +57,16 @@ public class HeapSort {
             return;
         }
         int len = arr.length;
-        for(int i=len-1;i>0;i--){
+        for(int i=len-1;i>=0;i--){
             doHeapifyForSamll(arr,i,len-1);
         }
-        U.printArr(arr);
-
+        //U.printArr(arr);
         U.swap(arr, len-1, 0);
         //第一次堆化完毕
         for(int end=len-2;end>0;end--){
             // 第一个和end交换，最小的放最后
             //堆化从头开始
-            doHeapifyForSamll(arr,0,end);
-            
+            doHeapifyForSamll(arr,0,end); 
             U.swap(arr, end, 0);
         }
     }
@@ -94,7 +92,7 @@ public class HeapSort {
 
     public static void main(String[] args){
 
-        int[] arr = {9,2,12,1,15,3,18,6,19,5,28,13,45,7,58,9};
+        int[] arr = {9,2,12,1,15,3,18,6,19,5,28,13,45,7,58,9,134,45,156,23,178,1,1,1,2,2,2,33333,3,3,44,4,4};
 
         /*
         heapSort(arr);
@@ -102,7 +100,6 @@ public class HeapSort {
             U.print( v +" ");
         }
         */
-
         heapifySamllHeap(arr);
         for(int v:arr){
             U.print( v +" ");
