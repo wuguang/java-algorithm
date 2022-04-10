@@ -6,14 +6,24 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import done.javaFold.U;
+import test.graph.Graph;
 import test.graph.Node;
 
 public class TopologicalOrder {
 
-    public static void topOrderfunBfs(Node start){
-        HashSet<Node> overSet = new HashSet<>();
+    public static void topOrderfunBfs(Graph myGraph){
         Queue<Node> sortList = new LinkedList<>();
-        sortList = orderFun(sortList,overSet,start);
+        Queue<Node> zeroInNodes = new LinkedList<>(); 
+
+        for(Node node : myGraph.nodes.values()){
+            if(node.in == 0){
+                zeroInNodes.add(node);
+            }
+        }
+
+        while(!zeroInNodes.isEmpty()){
+            orderFun(sortList,zeroInNodes);
+        }
 
         while(!sortList.isEmpty()){
             Node cur = sortList.poll();
@@ -22,36 +32,38 @@ public class TopologicalOrder {
 
     }
 
-    public static Queue<Node> orderFun(Queue<Node> sortList,HashSet<Node> overSet, Node start){
-        sortList.offer(start);
-        overSet.add(start);
-        Node nextTarget  = null;
-        for(Node next:start.nexts){
-            if(!overSet.contains(next)){
+    public static Queue<Node> orderFun(Queue<Node> sortList, Queue<Node>  zeroInNodes){
+        while(!zeroInNodes.isEmpty()){
+            Node cur = zeroInNodes.poll();
+            sortList.offer(cur);
+            for(Node next: cur.nexts){
                 next.in -= 1;
                 if(next.in == 0){
-                    nextTarget = next;
+                    zeroInNodes.offer(next);
                 }
             }
-        }
-        if(nextTarget!=null){
-            orderFun(sortList,overSet,nextTarget);
         }
         return sortList;
     }
     
     public static void main(String[] args){
-        Node one = initGraph();
-        topOrderfunBfs(one);
+        Graph myGraph = initGraph();
+        topOrderfunBfs(myGraph);
     }
 
 
-    public static Node initGraph(){
+    public static Graph initGraph(){
+        Graph myGraph = new Graph();
         Node one = new Node(1);
         Node two = new Node(2);
         Node three = new Node(3);
         Node four = new Node(4);
         Node five = new Node(5);
+        myGraph.nodes.put(1,one);
+        myGraph.nodes.put(2,two);
+        myGraph.nodes.put(3,three);
+        myGraph.nodes.put(4,four);
+        myGraph.nodes.put(5,five);
 
         Node[] oneNext = {two};
         addNexts(one,oneNext);
@@ -75,7 +87,9 @@ public class TopologicalOrder {
 
         five.in = 3;
 
-        return one;
+
+
+        return myGraph;
     }
 
     public static void addNexts(Node node,Node[] nodeList){
