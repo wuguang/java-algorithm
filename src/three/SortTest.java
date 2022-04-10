@@ -204,7 +204,7 @@ public class SortTest{
         }
         int max = arr[0];
         int min = arr[0];
-        for(int i=0;i<arr.length-1;i++){
+        for(int i=0;i<=arr.length-1;i++){
             if(arr[i]<min){
                 min = arr[i];
             }
@@ -213,21 +213,57 @@ public class SortTest{
             }
         }
         int k = max-min+1;
-        int[] newArr = new int[k+1];
+        int[] newArr = new int[max+1];
 
-        for(int i=0;i<arr.length-1;i++){
+        for(int i=0;i<=arr.length-1;i++){
             newArr[arr[i]] += 1;
         }
         U.printArr(newArr);
     
         int j = 0;
-        for(int i=0;i<newArr.length-1;i++){
+        for(int i=0;i<=newArr.length-1;i++){
             while(newArr[i]>0){
                 arr[j] = i;
                 j++;
                 newArr[i] -= 1;
             }
         }
+    }
+
+    public static void countSort02(int[] arr){
+        if(arr==null || arr.length == 1){
+            return;
+        }
+        int max = arr[0];
+        int min = arr[0];
+        for(int i=0;i<=arr.length-1;i++){
+            if(arr[i]>max){
+                max = arr[i];
+            }
+            if(arr[i]<min){
+                min = arr[i];
+            }
+        }
+        int k = max - min + 1;
+        int [] tempArr = new int[k+1];
+        for(int i=0;i<=arr.length-1;i++){
+            //所有的值都肖去min
+            tempArr[arr[i]-min] += 1;
+        }
+
+        int i = 0;
+        for(int j=0;j<=tempArr.length-1;j++){
+            int t = tempArr[j];
+            while(t>0){
+                //还原时加上min
+                arr[i] = j+min;
+                i++;
+                t--;
+            }
+        }
+
+
+
     }
 
     public static void main(String[] args){

@@ -29,7 +29,7 @@ public class Kmp {
         if(srcStr == null || targetStr==null || srcStr.length()<targetStr.length()){
             return -1; 
         }
-        int i = 0;
+        
         char[] srcStrArr = srcStr.toCharArray();
         char[] targetStrArr = targetStr.toCharArray();
 
@@ -48,6 +48,7 @@ public class Kmp {
         }
         
         int j = 0;
+        int i = 0;
         while(i<=srcStrLen - targetStrLen){
             int step = 1;
             System.out.println("111-i=" + i + "; step=" + step);
